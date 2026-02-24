@@ -15,6 +15,7 @@ public class ReactiveTarget : MonoBehaviour
     private float degreesPerSecond = totalDegrees / durationSeconds;
 
     private EnemySpawner spawner;
+    public GameObject deathParticlesPrefab;
     private Animator _animator; 
 
     void Start()
@@ -27,6 +28,19 @@ public class ReactiveTarget : MonoBehaviour
     {
         if (isDying) return;
         isDying = true;
+
+        // Spawn explosion on hit
+        if (deathParticlesPrefab != null)
+        {
+            Vector3 explosionPos = transform.position;
+            
+            GameObject particles = Instantiate(deathParticlesPrefab, explosionPos, Quaternion.identity);
+            Debug.Log($"Explosion spawned at {explosionPos}");
+        }
+        else
+        {
+            Debug.LogWarning("deathParticlesPrefab is not assigned!");
+        }
 
         WanderingAI behavior = GetComponent<WanderingAI>();
         if (behavior != null)
@@ -72,6 +86,7 @@ public class ReactiveTarget : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
 
+        //Spawn tombstone
         if (tombstonePrefab != null)
         {
             Vector3 tombstonePos = transform.position;
