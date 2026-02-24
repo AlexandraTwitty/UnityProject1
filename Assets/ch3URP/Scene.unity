@@ -2383,6 +2383,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reticle: {fileID: 0}
+  bulletTrail: {fileID: 0}
+  trailDuration: 0.1
+  bulletMaterial: {fileID: 2100000, guid: c9d3bc2090d03d04ca17057487968f5e, type: 2}
+  trailStartDistance: 1
+  bulletStartColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  bulletEndColor: {r: 1, g: 1, b: 1, a: 1}
+  bulletWidth: 0.08
+  sphereMaterial: {fileID: 2100000, guid: 80716a3f4295887429da4d0a657231f1, type: 2}
+  sphereColor: {r: 0.98490566, g: 0.9442275, b: 0.45900315, a: 1}
+  sphereSize: 0.2
+  sphereDuration: 1
+  sphereGlow: 0
+  muzzleFlashPrefab: {fileID: 0}
+  impactEffectPrefab: {fileID: 0}
+  shootSound: {fileID: 8300000, guid: 78419f98379502c4dbfb2774bc94e7c1, type: 3}
 --- !u!114 &1079528391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9081,6 +9096,7 @@ GameObject:
   - component: {fileID: 1891640216}
   - component: {fileID: 1891640215}
   - component: {fileID: 1891640221}
+  - component: {fileID: 1891640222}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -9232,6 +9248,33 @@ MonoBehaviour:
   healthText: {fileID: 299528429}
   gameOverText: {fileID: 19039584}
   blackBackground: {fileID: 1509718915}
+--- !u!114 &1891640222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891640214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acbd907baf941cf4e929c4591ca4a07e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FootstepController
+  footstepSounds:
+  - {fileID: 8300000, guid: 1f0199a4c6005ec4abbb302f71bc036d, type: 3}
+  - {fileID: 8300000, guid: 53e2adf2ac488ef46bb2b4074de9e363, type: 3}
+  - {fileID: 8300000, guid: a03a96c5d1e99b4409ddd79098abd9ab, type: 3}
+  - {fileID: 8300000, guid: 7187dc81f98b8be4eb97bfc4dd9a5abf, type: 3}
+  - {fileID: 8300000, guid: e3cfcb32689b274419ac73380ea96888, type: 3}
+  - {fileID: 8300000, guid: 314d37dfb74502a4094b835d0e0d6c23, type: 3}
+  - {fileID: 8300000, guid: f0f794c67e9233d468a38d165590d253, type: 3}
+  - {fileID: 8300000, guid: 1a7741daba5446e46a40f8074aae75dc, type: 3}
+  - {fileID: 8300000, guid: 0bc66974c41ff8c4fa15f46d21ad3548, type: 3}
+  footstepInterval: 0.5
+  volumeMin: 0.8
+  volumeMax: 1
+  pitchMin: 0.9
+  pitchMax: 1.1
 --- !u!850595691 &1926193190
 LightingSettings:
   m_ObjectHideFlags: 0
