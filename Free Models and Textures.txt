@@ -1,0 +1,24 @@
+Free Models and Textures
+
+Materials
+https://polyhaven.com/a/damaged_plaster
+https://polyhaven.com/a/patterned_cobblestone
+https://polyhaven.com/a/plastered_stone_wall 
+
+Skybox
+https://assetstore.unity.com/packages/2d/textures-materials/sky/skybox-series-free-103633
+
+3D Models
+https://sketchfab.com/3d-models/fireball-1db91a370a33485dac4a764ea8eb91b9 
+https://assetstore.unity.com/packages/vfx/particles/fire-explosions/free-asset-vfx-particles-fireball-pack-263814?srsltid=AfmBOoqyZxak7qZzx9LdEtzUMoLEZG2q8d4tCKJxTGqZHZpdnDYZC2ST
+https://assetstore.unity.com/packages/3d/characters/creatures/ghost-character-free-267003
+https://assetstore.unity.com/packages/3d/props/wooden-street-bench-289333 
+https://assetstore.unity.com/packages/3d/environments/urban/lamppost-269488
+
+Audio
+https://assetstore.unity.com/packages/audio/sound-fx/shooting-sound-177096
+https://assetstore.unity.com/packages/audio/sound-fx/voices/damage-sounds-male-npc-player-audio-pack-285385
+https://assetstore.unity.com/packages/audio/sound-fx/foley/footsteps-essentials-189879
+https://assetstore.unity.com/packages/audio/ambient/ambiance-dark-297075
+
+
