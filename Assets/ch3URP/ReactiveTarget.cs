@@ -4,11 +4,9 @@ using System.Collections;
 public class ReactiveTarget : MonoBehaviour
 {
     [Header("Death Effects")]
-    public GameObject tombstonePrefab; // Assign in Inspector!
+    public GameObject tombstonePrefab;
 
     private bool isDying = false;
-
-    // rotation
     private bool rotating = false;
     private float rotatedSoFar = 0f;
 
@@ -16,16 +14,17 @@ public class ReactiveTarget : MonoBehaviour
     private const float durationSeconds = 1f;
     private float degreesPerSecond = totalDegrees / durationSeconds;
 
-    private EnemySpawner spawner; // Cache reference
+    private EnemySpawner spawner;
+    private Animator _animator; 
 
     void Start()
     {
         spawner = Object.FindFirstObjectByType<EnemySpawner>();
+        _animator = GetComponent<Animator>(); 
     }
 
     public void ReactToHit()
     {
-        // Prevent double-trigger
         if (isDying) return;
         isDying = true;
 
@@ -35,6 +34,11 @@ public class ReactiveTarget : MonoBehaviour
             behavior.SetAlive(false);
         }
 
+        // Trigger death animation
+        if (_animator != null) {
+            _animator.SetBool("isDead", true);
+        }
+
         rotating = true;
         rotatedSoFar = 0f;
 
@@ -42,41 +46,36 @@ public class ReactiveTarget : MonoBehaviour
     }
 
     void Update()
-{
-    if (!rotating) return;
-
-    float step = degreesPerSecond * Time.deltaTime;
-    if (rotatedSoFar + step >= totalDegrees)
-        step = totalDegrees - rotatedSoFar;
-
-    // Rotate (fall forward around local X axis)
-    transform.Rotate(-step, 0f, 0f, Space.Self);
-
-    // After rotating, drop it so its collider bottom sits on the ground (y=0)
-    Collider col = GetComponent<Collider>();
-    if (col != null)
     {
-        float bottomY = col.bounds.min.y;   // current lowest point in world space
-        float delta = 0f - bottomY;         // how far off the floor we are
-        transform.position += new Vector3(0f, delta, 0f);
+        if (!rotating) return;
+
+        float step = degreesPerSecond * Time.deltaTime;
+        if (rotatedSoFar + step >= totalDegrees)
+            step = totalDegrees - rotatedSoFar;
+
+        transform.Rotate(-step, 0f, 0f, Space.Self);
+
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            float bottomY = col.bounds.min.y;
+            float delta = 0f - bottomY;
+            transform.position += new Vector3(0f, delta, 0f);
+        }
+
+        rotatedSoFar += step;
+        if (rotatedSoFar >= totalDegrees)
+            rotating = false;
     }
-
-    rotatedSoFar += step;
-    if (rotatedSoFar >= totalDegrees)
-        rotating = false;
-}
-
-
 
     private IEnumerator Die()
     {
         yield return new WaitForSeconds(1.5f);
 
-        // Spawn tombstone at enemy's position
         if (tombstonePrefab != null)
         {
             Vector3 tombstonePos = transform.position;
-            tombstonePos.y = 0; // Place on ground
+            tombstonePos.y = 0;
             Instantiate(tombstonePrefab, tombstonePos, Quaternion.identity);
         }
 
