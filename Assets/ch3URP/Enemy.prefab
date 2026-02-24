@@ -130,6 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tombstonePrefab: {fileID: 3305459508430558573, guid: a800d049ce29892458313cf057bab690, type: 3}
   deathParticlesPrefab: {fileID: 1366913852036704887, guid: 3515942b5abd5da4690d609b5fd62773, type: 3}
+  hitSound: {fileID: 8300000, guid: fc96116dc3c141440aabb5605744fea2, type: 3}
 --- !u!114 &11470818
 MonoBehaviour:
   m_ObjectHideFlags: 0

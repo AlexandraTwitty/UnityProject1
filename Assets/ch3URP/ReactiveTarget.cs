@@ -5,6 +5,11 @@ public class ReactiveTarget : MonoBehaviour
 {
     [Header("Death Effects")]
     public GameObject tombstonePrefab;
+    public GameObject deathParticlesPrefab;
+
+    [Header("Audio")]
+    public AudioClip hitSound;          
+    private AudioSource audioSource;    
 
     private bool isDying = false;
     private bool rotating = false;
@@ -15,13 +20,13 @@ public class ReactiveTarget : MonoBehaviour
     private float degreesPerSecond = totalDegrees / durationSeconds;
 
     private EnemySpawner spawner;
-    public GameObject deathParticlesPrefab;
-    private Animator _animator; 
+    private Animator _animator;
 
     void Start()
     {
         spawner = Object.FindFirstObjectByType<EnemySpawner>();
-        _animator = GetComponent<Animator>(); 
+        _animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void ReactToHit()
@@ -29,19 +34,25 @@ public class ReactiveTarget : MonoBehaviour
         if (isDying) return;
         isDying = true;
 
+        // Play hit sound immediately
+        if (hitSound != null)
+        {
+            AudioSource.PlayClipAtPoint(hitSound, transform.position, 1f);
+        }
+
+
         // Spawn explosion on hit
         if (deathParticlesPrefab != null)
         {
             Vector3 explosionPos = transform.position;
-            
-            GameObject particles = Instantiate(deathParticlesPrefab, explosionPos, Quaternion.identity);
-            Debug.Log($"Explosion spawned at {explosionPos}");
+            Instantiate(deathParticlesPrefab, explosionPos, Quaternion.identity);
         }
         else
         {
             Debug.LogWarning("deathParticlesPrefab is not assigned!");
         }
 
+        // Stop enemy movement
         WanderingAI behavior = GetComponent<WanderingAI>();
         if (behavior != null)
         {
@@ -49,10 +60,12 @@ public class ReactiveTarget : MonoBehaviour
         }
 
         // Trigger death animation
-        if (_animator != null) {
+        if (_animator != null)
+        {
             _animator.SetBool("isDead", true);
         }
 
+        // Start rotation
         rotating = true;
         rotatedSoFar = 0f;
 
@@ -67,13 +80,15 @@ public class ReactiveTarget : MonoBehaviour
         if (rotatedSoFar + step >= totalDegrees)
             step = totalDegrees - rotatedSoFar;
 
+        // Rotate (fall)
         transform.Rotate(-step, 0f, 0f, Space.Self);
 
+        // Snap to ground so it doesn't "float" while tipping
         Collider col = GetComponent<Collider>();
         if (col != null)
         {
             float bottomY = col.bounds.min.y;
-            float delta = 0f - bottomY;
+            float delta = 0f - bottomY; // ground is y=0
             transform.position += new Vector3(0f, delta, 0f);
         }
 
@@ -86,16 +101,18 @@ public class ReactiveTarget : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
 
-        //Spawn tombstone
+        // Spawn tombstone
         if (tombstonePrefab != null)
         {
             Vector3 tombstonePos = transform.position;
-            tombstonePos.y = 0;
+            tombstonePos.y = 0f;
             Instantiate(tombstonePrefab, tombstonePos, Quaternion.identity);
         }
 
+        // Destroy enemy
         Destroy(gameObject);
 
+        // Spawn next enemies (next frame)
         if (spawner != null)
             spawner.StartCoroutine(SpawnNextFrame(spawner));
     }
